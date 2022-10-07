@@ -1,13 +1,13 @@
-from lib2to3.pgen2.token import COMMA
 import pandas as pd
-
-data = pd.read_csv("~\Bootcamp\challenges\python-challenge\PyBank\Resources\Budget_Data.csv",',',None,0)
 
 count = 0
 net = 0
 biggest = 0
 smallest = 0
 changes = []
+
+data = pd.read_csv("~\Bootcamp\challenges\python-challenge\PyBank\Resources\Budget_Data.csv",',',None,0)
+
 for index,series in data.iterrows():
     # show output of data series:
     # print(series.name)
@@ -15,7 +15,7 @@ for index,series in data.iterrows():
     # print(series.values[1])
     
     # calculating sum
-    net = net + series.values[1]
+    net += series.values[1]
 
     # checking for and assigning biggest change
     if series.values[1] > biggest:
@@ -33,14 +33,6 @@ for index,series in data.iterrows():
 
     # saving last change for above calculation
     last_change = series.values[1]
-
-""" # desired output to terminal:
-print('\n\nFinancial Analysis \n---------------------------- ')
-print(f'Total Months: {len(data)}')
-print(f'Total: ${net}')
-print(f'Average change: ${round(sum(changes)/len(changes),2)}')
-print(f'Greatest Increase in Profits: {biggest_date} (${biggest})')
-print(f'Greatest Decrease in Profits: {smallest_date} (${smallest})') """
 
 # output to txt file
 with open('analysis\data.txt','w') as f:
