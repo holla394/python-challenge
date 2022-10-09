@@ -17,10 +17,9 @@
 from itertools import count
 import os
 from csv import reader
-
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
-csvpath = os.path.join('Resources','election_data.csv')
-# print(__file__)
+csvpath = os.path.join('..','PyPoll','Resources','election_data.csv')
+print(csvpath)
+# csvpath = os.path.join('c','Users','e1317395','Bootcamp','Challenges','python-challenge','PyPoll','Resources','election_data.csv')
 # print(csvpath)
 
 vote_cntr = 0
@@ -29,7 +28,7 @@ diana = 0
 raymon = 0
 with open(csvpath) as csvfile:
     csvreader = reader(csvfile, delimiter = ',')
-    # print(f'Reading CSV file:{csvreader}')
+    print(f'Reading CSV file:{csvreader}')
     csv_header = print(next(csvreader))
 
     for row in csvreader:
