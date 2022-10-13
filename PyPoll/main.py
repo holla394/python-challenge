@@ -1,59 +1,66 @@
-# import pandas as pd
-
-# data = pd.read_csv('~/Bootcamp/Challenges/python-challenge/PyPoll/Resources/election_data.csv',',',None,0)
-# print(len(data))
-
-# print(data.shape)
-# print(len(data))
-# #print(index)
-# print(data.index)
-# print(data.values)
-
-# for index,series in data.iterrows():
-#     print(len(data))
-#     print(index)
-
-# import csv
 from itertools import count
 import os
 from csv import reader
 
+# from sympy import N
+
+# setting directory of this active .py file as it runs
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+# setting filepath for csv file to read from
 csvpath = os.path.join('Resources','election_data.csv')
-# print(__file__)
-# print(csvpath)
 
+# declaring variables
 vote_cntr = 0
-charles = 0
-diana = 0
-raymon = 0
-with open(csvpath) as csvfile:
-    csvreader = reader(csvfile, delimiter = ',')
-    # print(f'Reading CSV file:{csvreader}')
-    csv_header = print(next(csvreader))
+name_counter = 0
+names = []
+votes = []
 
+# opening csv file in with block
+with open(csvpath) as csvfile:
+
+    # reads csv file header info
+    csvreader = reader(csvfile, delimiter = ',')
+
+    # reads first row of csv file (data labels, not the data itself)
+    csv_header = next(csvreader)
+
+    # iterating through lines of csv file
     for row in csvreader:
+        
+        # increment vote count
         vote_cntr += 1
-        if "Charles" in row[2]:
-            charles += 1
-        if "Diana" in row[2]:
-            diana += 1
-        if "Raymon" in row[2]:
-            raymon += 1
-    
+
+        # adds name to list if new candidate name
+        if row[2] not in names:
+            names.append(row[2])
+            name_counter += 1
+            votes.append(1)
+        else:
+            # adds one vote to "votes" list's index of candidate name
+            # indexes of names and votes lists are matching for candidates' vote counts
+            votes[names.index(row[2])] += 1
+
+    # printing results to terminal
     print('Election Results')
     print('-------------------------')
     print(f'Total Votes: {vote_cntr}')
     print('-------------------------')
-    print(f'Charles Casper Stockham: {round(100*(charles/vote_cntr),3)}% ({charles})')
-    print(f'Diana DeGette: {round(100*(diana/vote_cntr),3)}% ({diana})')
-    print(f'Raymon Anthony Doane: {round(100*(raymon/vote_cntr),3)}% ({raymon})')
+    # printing out candidate info
+    for index in range(len(names)):
+        print(f'{names[index]}:{round(100*(votes[index]/vote_cntr),3)}% ({votes[index]})')
+    print("-------------------------")
+    print(f'Winner: {names[votes.index(max(votes))]}')
+    print("-------------------------")
 
+    # printing results to txt file
     with open('analysis\data.txt','w') as f:
         f.write('Election Results\n')
         f.write('-------------------------\n')
         f.write(f'Total Votes: {vote_cntr}\n')
         f.write('-------------------------\n')
-        f.write(f'Charles Casper Stockham: {round(100*(charles/vote_cntr),3)}% ({charles})\n')
-        f.write(f'Diana DeGette: {round(100*(diana/vote_cntr),3)}% ({diana})\n')
-        f.write(f'Raymon Anthony Doane: {round(100*(raymon/vote_cntr),3)}% ({raymon})')
+        for index in range(len(names)):
+            f.write(f'{names[index]}:{round(100*(votes[index]/vote_cntr),3)}% ({votes[index]})\n')
+        f.write("-------------------------\n")
+        f.write(f'Winner: {names[votes.index(max(votes))]}\n')
+        f.write("-------------------------")
