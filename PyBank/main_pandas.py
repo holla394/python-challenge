@@ -11,6 +11,10 @@ data = pd.read_csv("~\Bootcamp\challenges\python-challenge\PyBank\Resources\Budg
 # iterate through rows in dataframe
 for index,series in data.iterrows():
 
+# .loc is to index by rows
+# .iterrows() is to iterate through rows
+# the default for df objects is to index and iterate by columns
+
     # calculating sum
     net += series.values[1]
 
